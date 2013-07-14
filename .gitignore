@@ -3,3 +3,4 @@ bin
 *~
 TempStatsStore
 derby.log
+concurrentthought-hive-udfs-0.1.0.jar
