@@ -7,7 +7,7 @@ set hive.metastore.warehouse.dir;
 set hive.exec.scratchdir=${system:user.dir}/test/hive/tmp/scratchdir;
 set hive.exec.scratchdir;
 
-ADD JAR concurrentthought-hive-udfs.jar;
+ADD JAR concurrentthought-hive-udfs-0.1.0.jar;
 
 CREATE TEMPORARY FUNCTION per_record_ngrams           AS 'com.concurrentthought.hive.udfs.PerRecordNGrams';
 CREATE TEMPORARY FUNCTION per_record_ngrams_as_arrays AS 'com.concurrentthought.hive.udfs.PerRecordNGramsAsArrays';
