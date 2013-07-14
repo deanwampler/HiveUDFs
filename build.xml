@@ -1,0 +1,96 @@
+<!-- Build the deployable jar and run the unit tests. -->
+<project name="HEVNotesXMLParser" default="main">
+
+    <property environment="env"/>
+
+    <property name="src.dir"         value="src/main/java" />
+    <property name="test.dir"        value="src/test/java" />
+    <property name="test.report.dir" value="junit-reports" />
+    <property name="lib.dir"         value="lib" />
+    <property name="lib.test.dir"    value="lib/test" />
+
+    <property name="build.dir"       value="bin" />
+    <property name="classes.dir"     value="${build.dir}/classes" />
+    <property name="jar.dir"         value="." />
+    <property name="jar.file"        value="${jar.dir}/concurrentthought-hive-udfs.jar" />
+
+    <!-- Locations for Hadoop and Hive jars we need. Override on the command line, if needed -->
+ 	<property name="env.HADOOP_HOME"    value="/usr/lib/hadoop/" />
+	<property name="env.HIVE_HOME"      value="/usr/lib/hive/lib" />
+
+    <condition property="is_windows">
+        <os family="windows" />
+    </condition>
+
+	<path id="classpath">
+	  <fileset dir="${env.HADOOP_HOME}" includes="**/*.jar" />
+	  <fileset dir="${env.HIVE_HOME}" includes="**/*.jar" />
+<!-- 	  <fileset dir="${lib.dir}" includes="**/*.jar" />
+ -->	</path>
+
+	<target name="main" depends="clean, jar, test"/>
+
+    <target name="clean" depends="junit-clean, hive-clean">
+        <delete dir="${build.dir}" />
+        <delete file="${jar.file}" />
+    </target>
+
+    <!-- From running the test-hive target. -->
+    <target name="hive-clean">
+        <delete dir="metastore_db" />
+        <delete dir="TempStatsStore" />
+        <delete file="derby.log" />
+    </target>
+
+    <target name="build-dirs">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${classes.dir}" />
+	</target>
+
+	<target name="compile" depends="build-dirs">
+		<mkdir dir="${classes.dir}" />
+		<javac destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" debug="on">
+			<src path="${src.dir}" /> 
+			<src path="${test.dir}" />
+		</javac>
+		<!-- Copy resource and other non-Java files to the staging location for the jar. -->
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}" excludes="**/*.java" />
+		</copy>
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${jar.dir}" />
+		<jar destfile="${jar.file}" basedir="${classes.dir}">
+		</jar>
+	</target>
+
+    <target name="test" depends="test-java" />
+
+    <target name="test-java" depends="junit-report-dir">
+        <junit printsummary="yes" showoutput="yes" haltonfailure="yes">
+            <jvmarg value="-Xmx800m" />
+            <classpath>
+                <pathelement location="${classes.dir}" />
+                <path refid="classpath" />
+            </classpath>
+            <batchtest fork="yes" todir="${test.report.dir}">
+                <fileset dir="${test.dir}" includes="**/*Test.java" />
+            </batchtest>
+            <formatter type="plain" />
+        </junit>
+        <antcall target="junit-clean" />
+    </target>
+
+    <target name="junit-report-dir">
+        <mkdir dir="${test.report.dir}" />
+    </target>
+
+    <target name="junit-clean">
+        <delete quiet="true" dir="${test.report.dir}" />
+    </target>
+
+    <target name="test-hive" unless="is_windows">
+        <exec executable="test/hive/test.sh" failonerror="true" />
+    </target>
+</project>
