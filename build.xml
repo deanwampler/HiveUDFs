@@ -1,7 +1,9 @@
 <!-- Build the deployable jar and run the unit tests. -->
-<project name="HEVNotesXMLParser" default="main">
+<project name="HiveUDFs" default="main">
 
     <property environment="env"/>
+
+    <property name="version"         value="0.1.0" />
 
     <property name="src.dir"         value="src/main/java" />
     <property name="test.dir"        value="src/test/java" />
@@ -12,7 +14,7 @@
     <property name="build.dir"       value="bin" />
     <property name="classes.dir"     value="${build.dir}/classes" />
     <property name="jar.dir"         value="." />
-    <property name="jar.file"        value="${jar.dir}/concurrentthought-hive-udfs.jar" />
+    <property name="jar.file"        value="${jar.dir}/concurrentthought-hive-udfs-${version}.jar" />
 
     <!-- Locations for Hadoop and Hive jars we need. Override on the command line, if needed -->
  	<property name="env.HADOOP_HOME"    value="/usr/lib/hadoop/" />

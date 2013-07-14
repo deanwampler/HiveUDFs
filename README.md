@@ -2,6 +2,8 @@
 
 [Dean Wampler](dean@concurrentthought.com)
 
+V0.1 - First release
+
 This project is a collection of Hive UDFs. 
 
 Documentation is defined in the functions, so `DESCRIBE FUNCTION ...` works as it should.
@@ -54,5 +56,8 @@ If you're building on a development workstation, just download the appropriate H
 
 If `ant` is invoked without a specific target, `clean`, `compile`, `jar`, and `test` are built. The jar file is named `concurrentthought-hive-udfs.jar` and the `test` target runs unit tests.
 
-There is also a `test-hive` target that is not executed by default. It runs a simple Hive script to test the functions. It *assumes* you have Hadoop and Hive configured for *local mode* on your build machine, as it temporarily defines the `hive.metastore.warehouse.dir` setting to `${system:user.dir}/test/hive/tmp/warehouse`, where `${system:user.dir}` is this working directory. If you remove this line in the script `test/hive/test.hql`, the script should work for non-local mode installations. Note that the `test-hive` target actually invokes a driver shell script, `test/hive/test.sh`.
+There is also a `test-hive` target that is not executed by default. It runs a simple Hive script to test the functions. It *assumes* you have Hadoop and Hive configured for *local mode* on your build machine, as it temporarily defines the `hive.metastore.warehouse.dir` setting to `${system:user.dir}/test/hive/tmp/warehouse`, where `${system:user.dir}` is this working directory. If you remove this line in the script `test/hive/test.hql`, the script should work for non-local mode installations. Note that the `test-hive` target actually invokes a driver shell script, `test/hive/test.sh`. Also, it will only run on Hive v0.10.0 or later, because it embeds comments and it uses embedded variable expansions that don't work with early versions of Hive.
 
+## Supported Hive Versions
+
+The code builds and the unit tests pass for Hive v0.7.1, v0.8.0, v0.9.0, v0.10.0, and v0.11.0. However, it has only been tested with Hive v0.11.0. Please submit patches if it doesn't work with earlier releases!

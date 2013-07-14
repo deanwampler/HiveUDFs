@@ -2,6 +2,10 @@
 -- Executed by hive/test.sh, which should be run from the project's root directory!
 
 set hive.metastore.warehouse.dir=${system:user.dir}/test/hive/tmp/warehouse;
+set hive.metastore.warehouse.dir;
+
+set hive.exec.scratchdir=${system:user.dir}/test/hive/tmp/scratchdir;
+set hive.exec.scratchdir;
 
 ADD JAR concurrentthought-hive-udfs.jar;
 
