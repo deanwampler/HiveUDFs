@@ -3,7 +3,7 @@
 
     <property environment="env"/>
 
-    <property name="version"         value="0.1.0" />
+    <property name="version"         value="0.1.1" />
 
     <property name="src.dir"         value="src/main/java" />
     <property name="test.dir"        value="src/test/java" />
@@ -93,6 +93,8 @@
     </target>
 
     <target name="test-hive" unless="is_windows">
-        <exec executable="test/hive/test.sh" failonerror="true" />
+        <exec executable="test/hive/test.sh" failonerror="true">
+            <arg value="${version}" />
+        </exec>
     </target>
 </project>

@@ -10,7 +10,7 @@ import java.util.ArrayList;
     extended="Example:\n"
         + "  > SELECT _FUNC_(\"Time flies like an arrow. Fruit flies like a banana.\", array(null,\"flies\",\"like\",null,null)) FROM src LIMIT 1;\n"
         + "  [\"Time flies like an arrow\", \"Fruit flies like a banana\"]\n"
-        + "Extra whitespace is removed. Punctuation is treated as extra whitespace.\n")
+        + "Punctuation is treated as whitespace and extra whitespace is removed, including leading and trailing whitespace.\n")
 public class PerRecordContextNGrams extends UDF {
 
     public ArrayList<String> evaluate(final String text, final List<String> ngramPattern) throws HiveException {

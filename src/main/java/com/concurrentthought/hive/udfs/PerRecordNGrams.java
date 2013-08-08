@@ -9,7 +9,7 @@ import java.util.ArrayList;
     extended="Example:\n"
         + "  > SELECT _FUNC_(3, \"Now is the time for all good men\") FROM src LIMIT 1;\n"
         + "  [\"Now is the\", \"is the time\", ...]\n"
-        + "Extra whitespace is removed. Punctuation is treated as extra whitespace.\n")
+        + "Punctuation is treated as whitespace and extra whitespace is removed, including leading and trailing whitespace.\n")
 public class PerRecordNGrams extends UDF {
 
     public ArrayList<String> evaluate(final int n, final String text) throws HiveException {
