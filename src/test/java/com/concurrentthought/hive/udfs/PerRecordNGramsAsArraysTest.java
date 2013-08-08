@@ -17,48 +17,49 @@ public class PerRecordNGramsAsArraysTest {
         return a;
     }
 
+    private ArrayList<ArrayList<String>> empty = new ArrayList<ArrayList<String>>();
+
     @Test
     public void emptyListReturnedForNullText() throws HiveException {
-        assertEquals(new ArrayList<ArrayList<String>>(), func.evaluate(3, null));
+        assertEquals(empty, func.evaluate(3, null));
     }
 
     @Test
     public void emptyListReturnedForEmptyText() throws HiveException {
-        assertEquals(new ArrayList<ArrayList<String>>(), func.evaluate(3, ""));
+        assertEquals(empty, func.evaluate(3, ""));
     }
 
     @Test(expected = HiveException.class)
     public void throwsIfNIsNegative() throws HiveException {
-        assertEquals(new ArrayList<String>(), func.evaluate(-1, null));
+        func.evaluate(-1, null);
     }
 
     @Test(expected = HiveException.class)
     public void throwsIfNEqualsZero() throws HiveException {
-        assertEquals(new ArrayList<String>(), func.evaluate(0, null));
+        func.evaluate(0, null);
     }
 
     @Test
     public void emptyListReturnedForTextWithFewerThanNWords() throws HiveException {
-        ArrayList<ArrayList<String>> expected = new ArrayList<ArrayList<String>>();
-        assertEquals(expected, func.evaluate(3, "Now is"));
+        assertEquals(empty, func.evaluate(3, "Now is"));
     }
 
     @Test
     public void oneElementListReturnedForTextWithNWords() throws HiveException {
         ArrayList<ArrayList<String>> expected = new ArrayList<ArrayList<String>>();
-        expected.add(toArray("now is the"));
+        expected.add(toArray("Now is the"));
         assertEquals(expected, func.evaluate(3, "Now is the"));
     }
 
     @Test
     public void manyElementListReturnedForTextWithMoreThanNWords() throws HiveException {
         ArrayList<ArrayList<String>> expected = new ArrayList<ArrayList<String>>();
-        expected.add(toArray("now is the"));
+        expected.add(toArray("Now is the"));
         expected.add(toArray("is the time"));
         assertEquals(expected, func.evaluate(3, "Now is the time"));
 
         expected = new ArrayList<ArrayList<String>>();
-        expected.add(toArray("now is the"));
+        expected.add(toArray("Now is the"));
         expected.add(toArray("is the time"));
         expected.add(toArray("the time for"));
         expected.add(toArray("time for all"));
@@ -70,16 +71,16 @@ public class PerRecordNGramsAsArraysTest {
     @Test
     public void leadingAndTrailingWhitespaceIsIgnored() throws HiveException {
         ArrayList<ArrayList<String>> expected = new ArrayList<ArrayList<String>>();
-        expected.add(toArray("now is the"));
+        expected.add(toArray("Now is the"));
         expected.add(toArray("is the time"));
         assertEquals(expected, func.evaluate(3, " \tNow is the time \t"));
     }
 
     @Test
-    public void punctuationIsIgnored() throws HiveException {
+    public void punctuationIsTreatedAsWhitespace() throws HiveException {
         ArrayList<ArrayList<String>> expected = new ArrayList<ArrayList<String>>();
-        expected.add(toArray("now is the"));
+        expected.add(toArray("Now is the"));
         expected.add(toArray("is the time"));
-        assertEquals(expected, func.evaluate(3, "Now-is.the ! time ;"));
+        assertEquals(expected, func.evaluate(3, "?Now-is.the ! time ;"));
     }
 }
