@@ -59,7 +59,7 @@ Here is an example (see also `test/hive/test.hql`):
     SELECT per_record_context_ngrams("Time flies like an arrow. Fruit flies like a banana.", array(null, "flies", "like", null, null)) FROM src LIMIT 1;
     > ["Time flies like an arrow","Fruit flies like a banana"]
 
-## `per_record_context_ngrams_as_arrays(n, text)` 
+### `per_record_context_ngrams_as_arrays(n, text)` 
 
 (Java class: `com.concurrentthought.hive.udfs.PerRecordContextNGramsAsArrays`)
 
