@@ -4,3 +4,4 @@ bin
 TempStatsStore
 derby.log
 concurrentthought-hive-udfs-*.jar
+metastore_db
