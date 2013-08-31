@@ -26,6 +26,6 @@ done
 
 # Successful! Clean up...
 rm -rf test/hive/tmp test/hive/output 
-test -n "$delete_metastore_db" && metastore_db
+test -n "$delete_metastore_db" && rm -rf metastore_db
 
 exit 0
